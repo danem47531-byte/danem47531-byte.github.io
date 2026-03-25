@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Portfolio | Tridev Pal</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,300&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #fdf8f4;
+      --bg-alt:    #f5ece3;
+      --card-bg:   #ffffff;
+      --accent:    #914110;
+      --accent-lt: #b85620;
+      --accent-xs: rgba(145,65,16,0.08);
+      --dark:      #1e1209;
+      --body:      #3d2510;
+      --muted:     #8a6a55;
+      --border:    rgba(145,65,16,0.18);
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--body);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* ═══════════════ NAV ═══════════════ */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.1rem 4rem;
+      background: rgba(253,248,244,0.92);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 1.45rem; font-weight: 700;
+      color: var(--dark); letter-spacing: -0.01em;
+    }
+    .nav-logo span { color: var(--accent); }
+    .nav-links { display: flex; gap: 2.2rem; list-style: none; }
+    .nav-links a {
+      color: var(--muted); text-decoration: none;
+      font-size: 0.88rem; font-weight: 400;
+      transition: color 0.25s;
+    }
+    .nav-links a:hover { color: var(--accent); }
+
+    /* ═══════════════ HERO ═══════════════ */
+    #hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex; align-items: center;
+      padding: 0 5rem;
+      overflow: hidden;
+      background:
+        linear-gradient(rgba(145,65,16,0.07) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(145,65,16,0.07) 1px, transparent 1px),
+        radial-gradient(ellipse at 72% 50%, #f0e3d8 0%, var(--bg) 65%);
+      background-size: 48px 48px, 48px 48px, 100% 100%;
+    }
+    .hero-inner {
+      position: relative; z-index: 1;
+      max-width: 760px;
+    }
+    .hero-greeting {
+      font-size: 1.25rem; font-weight: 700;
+      color: var(--muted); margin-bottom: 0.4rem;
+      opacity: 0; animation: fadeUp 0.6s 0.2s ease forwards;
+    }
+    .hero-name {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3.2rem, 8vw, 6rem);
+      font-weight: 900; line-height: 1.02;
+      color: #3C2A21;
+      margin-bottom: 0.6rem;
+      opacity: 0; animation: fadeUp 0.7s 0.35s ease forwards;
+    }
+    .hero-role-line {
+      font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+      font-weight: 300; color: var(--body);
+      margin-bottom: 2.5rem;
+      opacity: 0; animation: fadeUp 0.7s 0.5s ease forwards;
+      min-height: 2.2rem;
+    }
+    .hero-role-line .typed {
+      color: var(--accent);
+      font-weight: 500;
+      border-right: 2px solid var(--accent);
+      padding-right: 3px;
+      animation: blink 0.75s step-end infinite;
+    }
+    @keyframes blink { 50% { border-color: transparent; } }
+
+    .hero-btns {
+      display: flex; gap: 1rem; flex-wrap: wrap;
+      opacity: 0; animation: fadeUp 0.7s 0.65s ease forwards;
+    }
+    .btn {
+      display: inline-block; padding: 0.9rem 2.2rem;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem; font-weight: 500;
+      text-decoration: none; cursor: pointer; border: none;
+      transition: all 0.3s;
+    }
+    .btn-primary { background: var(--accent); color: #fff; }
+    .btn-primary:hover { background: var(--accent-lt); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(145,65,16,0.25); }
+    .btn-outline { border: 1.5px solid var(--accent); color: var(--accent); background: transparent; }
+    .btn-outline:hover { background: var(--accent-xs); transform: translateY(-2px); }
+
+    /* ═══════════════ SECTION COMMONS ═══════════════ */
+    section { padding: 6rem 4rem; }
+    .section-label {
+      font-size: 0.75rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 0.6rem;
+    }
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 700; color: var(--dark); margin-bottom: 0.8rem;
+    }
+    .section-line {
+      width: 56px; height: 2px;
+      background: linear-gradient(90deg, var(--accent), transparent);
+      margin-bottom: 3rem;
+    }
+
+    /* ═══════════════ ABOUT ═══════════════ */
+    #about { background: var(--bg-alt); }
+    .about-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 5rem; align-items: center;
+    }
+    .about-text p { color: var(--muted); margin-bottom: 1.1rem; }
+    .about-text strong { color: var(--dark); }
+
+    /* Placeholder image — replace src when ready */
+    .about-img-wrap {
+      position: relative; display: flex; justify-content: center;
+    }
+    .about-img-frame {
+      width: 300px; height: 340px;
+      border: 2px solid var(--accent);
+      position: relative; overflow: hidden;
+    }
+    .about-img-frame::before {
+      content: '';
+      position: absolute; inset: -12px;
+      border: 1px solid rgba(145,65,16,0.22);
+      pointer-events: none; z-index: 1;
+    }
+    /* ↓↓↓ REPLACE THIS src WITH YOUR OWN PHOTO ↓↓↓ */
+    .about-img-frame img {
+      width: 100%; height: 100%; object-fit: cover; display: block;
+    }
+    .about-img-label {
+      position: absolute; bottom: -1.8rem; left: 50%; transform: translateX(-50%);
+      font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--muted); white-space: nowrap;
+    }
+
+    /* ═══════════════ SKILLS ═══════════════ */
+    #skills { background: var(--bg); }
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 1.5rem;
+    }
+    .skill-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      padding: 1.8rem 1.6rem;
+      position: relative; overflow: hidden;
+      transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+    }
+    .skill-card::after {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, var(--accent), transparent);
+      opacity: 0; transition: opacity 0.3s;
+    }
+    .skill-card:hover { transform: translateY(-4px); border-color: var(--accent); box-shadow: 0 10px 28px rgba(145,65,16,0.10); }
+    .skill-card:hover::after { opacity: 1; }
+    .skill-icon { font-size: 1.7rem; margin-bottom: 0.8rem; }
+    .skill-name { font-weight: 500; color: var(--dark); margin-bottom: 0.3rem; }
+    .skill-tools { font-size: 0.78rem; color: var(--muted); }
+    .skill-bar-wrap { margin-top: 1rem; height: 3px; background: var(--accent-xs); }
+    .skill-bar { height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent-lt)); }
+
+    /* ═══════════════ PROJECTS ═══════════════ */
+    #projects { background: var(--bg-alt); }
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+      gap: 2rem;
+    }
+    .project-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      padding: 2.4rem;
+      position: relative; overflow: hidden;
+      transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+    }
+    .project-card:hover {
+      transform: translateY(-6px);
+      border-color: var(--accent);
+      box-shadow: 0 20px 40px rgba(145,65,16,0.12);
+    }
+    .project-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.8rem; font-weight: 900;
+      color: rgba(145,65,16,0.09);
+      position: absolute; top: 0.8rem; right: 1.4rem;
+    }
+    .project-tag {
+      display: inline-block; font-size: 0.68rem;
+      letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--accent); border: 1px solid var(--border);
+      padding: 0.18rem 0.65rem; margin-bottom: 1rem;
+    }
+    .project-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.25rem; font-weight: 700;
+      color: var(--dark); margin-bottom: 0.7rem;
+    }
+    .project-desc { font-size: 0.88rem; color: var(--muted); margin-bottom: 1.3rem; line-height: 1.65; }
+    .project-tech { display: flex; flex-wrap: wrap; gap: 0.45rem; margin-bottom: 1.3rem; }
+    .tech-chip {
+      font-size: 0.7rem; background: var(--accent-xs);
+      color: var(--accent); padding: 0.22rem 0.65rem;
+      border: 1px solid var(--border);
+    }
+    .project-link {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      color: var(--accent); text-decoration: none;
+      font-size: 0.8rem; letter-spacing: 0.08em; text-transform: uppercase;
+      transition: gap 0.3s;
+    }
+    .project-link:hover { gap: 0.7rem; }
+    .project-link svg { transition: transform 0.3s; }
+    .project-link:hover svg { transform: translateX(3px); }
+
+    /* ═══════════════ CONTACT ═══════════════ */
+    #contact { background: var(--bg); text-align: center; }
+    .contact-inner { max-width: 620px; margin: 0 auto; }
+    .contact-inner > p { color: var(--muted); margin-bottom: 2.5rem; }
+    .contact-links { display: flex; justify-content: center; gap: 1.1rem; flex-wrap: wrap; }
+    .contact-link {
+      display: inline-flex; align-items: center; gap: 0.55rem;
+      padding: 0.85rem 1.7rem;
+      border: 1px solid var(--border);
+      color: var(--body); text-decoration: none;
+      font-size: 0.85rem;
+      background: var(--card-bg);
+      transition: all 0.3s;
+    }
+    .contact-link:hover {
+      border-color: var(--accent); color: var(--accent);
+      transform: translateY(-2px); box-shadow: 0 6px 20px rgba(145,65,16,0.12);
+    }
+
+    /* ═══════════════ FOOTER ═══════════════ */
+    footer {
+      background: var(--dark);
+      text-align: center; padding: 2rem;
+      font-size: 0.8rem; color: rgba(255,255,255,0.4);
+      border-top: 1px solid rgba(145,65,16,0.3);
+    }
+    footer span { color: #c97a4a; }
+
+    /* ═══════════════ ANIMATIONS ═══════════════ */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(22px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .reveal {
+      opacity: 0; transform: translateY(28px);
+      transition: opacity 0.65s ease, transform 0.65s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* ═══════════════ RESPONSIVE ═══════════════ */
+    @media (max-width: 800px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { display: none; }
+      #hero { padding: 0 1.5rem; }
+      section { padding: 4rem 1.5rem; }
+      .about-grid { grid-template-columns: 1fr; gap: 3rem; }
+      .about-img-wrap { order: -1; }
+      .about-img-frame { width: 240px; height: 270px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══ NAV ═══ -->
+<nav>
+  <div class="nav-logo">Portf<span>o</span>lio.</div>
+  <ul class="nav-links">
+    <li><a href="javascript:void(0)" onclick="goTo('hero')">Home</a></li>
+    <li><a href="javascript:void(0)" onclick="goTo('about')">About</a></li>
+    <li><a href="javascript:void(0)" onclick="goTo('projects')">Projects</a></li>
+    <li><a href="javascript:void(0)" onclick="goTo('skills')">Skills</a></li>
+    <li><a href="javascript:void(0)" onclick="goTo('contact')">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- ═══ HERO ═══ -->
+<section id="hero">
+  <div class="hero-inner">
+    <p class="hero-greeting">Hello, my name is</p>
+    <h1 class="hero-name">Tridev Pal</h1>
+    <p class="hero-role-line">And I'm a <span class="typed" id="typed-text"></span></p>
+    <div class="hero-btns">
+      <a href="javascript:void(0)" onclick="goTo('contact')" class="btn btn-primary">Let's Connect</a>
+      <a href="javascript:void(0)" onclick="goTo('projects')" class="btn btn-outline">View My Work</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ ABOUT ═══ -->
+<section id="about">
+  <div class="about-grid">
+    <div class="about-text reveal">
+      <p class="section-label">About Me</p>
+      <h2 class="section-title">Analytical Mind,<br>Data-Driven Heart</h2>
+      <div class="section-line"></div>
+      <p>Hi, I'm <strong>Tridev Pal</strong> — a data analyst passionate about transforming complex datasets into meaningful business decisions. I work across the full analytics stack: data wrangling, statistical analysis, machine learning, and visual storytelling.</p>
+      <p>My projects span industries — from e-commerce logistics and financial risk detection to social media analytics and product recommendation engines. I love digging into messy real-world data and building something clean, insightful, and actionable.</p>
+      <p>Currently exploring advanced ML techniques and end-to-end data pipelines with Python, Scikit-Learn, and Power BI.</p>
+      <div style="display:flex; gap:1rem; margin-top:1.8rem; flex-wrap:wrap;">
+        <a href="https://github.com/danem47531-byte" class="btn btn-outline" target="_blank">GitHub →</a>
+        <a href="https://www.linkedin.com/in/tridev-pal-74575a379/" class="btn btn-primary" target="_blank">LinkedIn →</a>
+      </div>
+    </div>
+    <div class="about-img-wrap reveal">
+      <!--
+        ┌─────────────────────────────────────────────┐
+        │  REPLACE THE src BELOW WITH YOUR OWN PHOTO  │
+        │  e.g. src="your-photo.jpg"                  │
+        └─────────────────────────────────────────────┘
+      -->
+      <div class="about-img-frame">
+        <img
+          src="screen.png"
+          alt="Picture"
+          id="about-photo"
+        />
+      </div>
+      <p class="about-img-label"style="font-weight: bold;">Coming Soon</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ SKILLS ═══ -->
+<section id="skills">
+  <div class="reveal">
+    <p class="section-label">Expertise</p>
+    <h2 class="section-title">Tools &amp; Technologies</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="skills-grid">
+    <div class="skill-card reveal">
+      <div class="skill-icon">🐍</div>
+      <div class="skill-name">Python</div>
+      <div class="skill-tools">Pandas · Matplotlib · SciPy · Seaborn</div>
+      <div class="skill-bar-wrap"><div class="skill-bar" style="width:90%"></div></div>
+    </div>
+    <div class="skill-card reveal">
+      <div class="skill-icon">🗄️</div>
+      <div class="skill-name">SQL / MySQL</div>
+      <div class="skill-tools">Window Functions · CTEs · Subqueries</div>
+      <div class="skill-bar-wrap"><div class="skill-bar" style="width:85%"></div></div>
+    </div>
+    <div class="skill-card reveal">
+      <div class="skill-icon">🤖</div>
+      <div class="skill-name">Machine Learning</div>
+      <div class="skill-tools">Scikit-Learn · K-Means · Regression</div>
+      <div class="skill-bar-wrap"><div class="skill-bar" style="width:80%"></div></div>
+    </div>
+    <div class="skill-card reveal">
+      <div class="skill-icon">📊</div>
+      <div class="skill-name">Excel &amp; Power BI</div>
+      <div class="skill-tools">Pivot Tables · DAX · Dashboards</div>
+      <div class="skill-bar-wrap"><div class="skill-bar" style="width:85%"></div></div>
+    </div>
+    <div class="skill-card reveal">
+      <div class="skill-icon">🔍</div>
+      <div class="skill-name">Data Analysis</div>
+      <div class="skill-tools">EDA · KPI Analysis · Anomaly Detection</div>
+      <div class="skill-bar-wrap"><div class="skill-bar" style="width:88%"></div></div>
+    </div>
+    <div class="skill-card reveal">
+      <div class="skill-icon">📡</div>
+      <div class="skill-name">Web Scraping</div>
+      <div class="skill-tools">BeautifulSoup · Scrapy · Pipeline Design</div>
+      <div class="skill-bar-wrap"><div class="skill-bar" style="width:75%"></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ PROJECTS ═══ -->
+<section id="projects">
+  <div class="reveal">
+    <p class="section-label">Work</p>
+    <h2 class="section-title">Featured Projects</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="projects-grid">
+
+    <div class="project-card reveal">
+      <div class="project-num">01</div>
+      <div class="project-tag">Excel · Analytics</div>
+      <h3 class="project-title">Spotify Social Media Analysis</h3>
+      <p class="project-desc">End-to-end Excel analysis of Spotify's social media campaigns — covering engagement rates, ad spend ROI, hashtag impact, and follower growth trends across platforms.</p>
+      <div class="project-tech">
+        <span class="tech-chip">Microsoft Excel</span>
+        <span class="tech-chip">Pivot Tables</span>
+        <span class="tech-chip">Data Visualization</span>
+      </div>
+      <a href="https://github.com/danem47531-byte/Excel" class="project-link" target="_blank">View on GitHub <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+    </div>
+
+    <div class="project-card reveal">
+      <div class="project-num">02</div>
+      <div class="project-tag">SQL · MySQL</div>
+      <h3 class="project-title">Flipkart Delivery Analytics</h3>
+      <p class="project-desc">MySQL project using Window Functions, CTEs, Subqueries and KPI Analysis across Orders, Routes, Warehouses and Delivery Agents to surface logistics bottlenecks.</p>
+      <div class="project-tech">
+        <span class="tech-chip">MySQL</span>
+        <span class="tech-chip">Window Functions</span>
+        <span class="tech-chip">CTEs</span>
+        <span class="tech-chip">KPI Analysis</span>
+      </div>
+      <a href="https://github.com/danem47531-byte/SQL" class="project-link" target="_blank">View on GitHub <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+    </div>
+
+    <div class="project-card reveal">
+      <div class="project-num">03</div>
+      <div class="project-tag">Python · Statistical Analysis</div>
+      <h3 class="project-title">Goldman Sachs Transaction Analytics</h3>
+      <p class="project-desc">Python &amp; Jupyter Notebook project using Pandas, Matplotlib &amp; SciPy for Risk Detection, Customer Segmentation, Anomaly Detection and Hypothesis Testing on transaction data.</p>
+      <div class="project-tech">
+        <span class="tech-chip">Python</span>
+        <span class="tech-chip">Pandas</span>
+        <span class="tech-chip">SciPy</span>
+        <span class="tech-chip">Anomaly Detection</span>
+      </div>
+      <a href="https://github.com/danem47531-byte/Python" class="project-link" target="_blank">View on GitHub <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+    </div>
+
+    <div class="project-card reveal">
+      <div class="project-num">04</div>
+      <div class="project-tag">Capstone · Full Pipeline</div>
+      <h3 class="project-title">Flipkart Fashion — Full Data Pipeline</h3>
+      <p class="project-desc">Full pipeline project on Flipkart Men's Topwear — scraping 1,000 real products, EDA, product recommendation engine, price prediction model, and Power BI dashboard.</p>
+      <div class="project-tech">
+        <span class="tech-chip">Web Scraping</span>
+        <span class="tech-chip">EDA</span>
+        <span class="tech-chip">ML</span>
+        <span class="tech-chip">Power BI</span>
+      </div>
+      <a href="https://github.com/danem47531-byte/Capstone-Project" class="project-link" target="_blank">View on GitHub <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+    </div>
+
+    <div class="project-card reveal">
+      <div class="project-num">05</div>
+      <div class="project-tag">Machine Learning</div>
+      <h3 class="project-title">eBay Customer Analytics</h3>
+      <p class="project-desc">Python ML project using K-Means Clustering for customer segmentation, recommendation insights and comprehensive EDA with Pandas, Scikit-Learn, Matplotlib and Seaborn.</p>
+      <div class="project-tech">
+        <span class="tech-chip">Scikit-Learn</span>
+        <span class="tech-chip">K-Means</span>
+        <span class="tech-chip">Seaborn</span>
+        <span class="tech-chip">Segmentation</span>
+      </div>
+      <a href="https://github.com/danem47531-byte/Machine-Learning" class="project-link" target="_blank">View on GitHub <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+    </div>
+
+    <div class="project-card reveal">
+      <div class="project-num">06</div>
+      <div class="project-tag">Python · NLP</div>
+      <h3 class="project-title">Text To Voice Converter</h3>
+      <p class="project-desc">A Jupyter Notebook application that converts text input into synthesized speech — exploring NLP and text-to-speech libraries in Python.</p>
+      <div class="project-tech">
+        <span class="tech-chip">Python</span>
+        <span class="tech-chip">Jupyter</span>
+        <span class="tech-chip">NLP</span>
+        <span class="tech-chip">TTS</span>
+      </div>
+      <a href="https://github.com/danem47531-byte/Text_To_Voice" class="project-link" target="_blank">View on GitHub <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══ CONTACT ═══ -->
+<section id="contact">
+  <div class="contact-inner reveal">
+    <p class="section-label">Get In Touch</p>
+    <h2 class="section-title">Let's Work Together</h2>
+    <div class="section-line" style="margin:0 auto 2rem;"></div>
+    <p>I'm open to data analyst roles, freelance projects, and collaborations. If you have an interesting dataset or problem, I'd love to hear about it.</p>
+    <div class="contact-links">
+      <a href="https://github.com/danem47531-byte" target="_blank" class="contact-link">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+        GitHub
+      </a>
+      <a href="https://www.linkedin.com/in/tridev-pal-74575a379/" target="_blank" class="contact-link">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+        LinkedIn
+      </a>
+      <a href="mailto:tridevpal2@gmail.com" class="contact-link">
+        <svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"/></svg>
+        tridevpal2@gmail.com
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <p>Designed &amp; Built by <span>Tridev Pal</span> &nbsp;·&nbsp; 2025</p>
+</footer>
+
+<script>
+/* ── Smooth scroll helper ── */
+function goTo(id){
+  const el = document.getElementById(id);
+  if(el) el.scrollIntoView({ behavior: 'smooth' });
+}
+
+/* ── Typing animation ── */
+(function(){
+  const roles = [
+    'Data Analyst',
+    'Data Scientist',
+    'Python Developer',
+    'Power BI Developer'
+  ];
+  const el = document.getElementById('typed-text');
+  let ri=0, ci=0, deleting=false;
+
+  function type(){
+    const word = roles[ri];
+    if(!deleting){
+      el.textContent = word.slice(0, ++ci);
+      if(ci===word.length){ deleting=true; setTimeout(type,1800); return; }
+    } else {
+      el.textContent = word.slice(0, --ci);
+      if(ci===0){ deleting=false; ri=(ri+1)%roles.length; }
+    }
+    setTimeout(type, deleting ? 60 : 100);
+  }
+  setTimeout(type, 900);
+})();
+
+/* ── Scroll reveal ── */
+const reveals = document.querySelectorAll('.reveal');
+const obs = new IntersectionObserver((entries)=>{
+  entries.forEach(e => {
+    if(e.isIntersecting){ e.target.classList.add('visible'); }
+  });
+}, { threshold: 0.15 });
+reveals.forEach(r => obs.observe(r));
+</script>
+</body>
+</html>
